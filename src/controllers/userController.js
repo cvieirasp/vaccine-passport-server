@@ -107,11 +107,11 @@ exports.update = async (req, res) => {
     if (!userId)
       return res.status(400).json('identificador do usuário inválido');   
 
-    let user = await User.findOne({ idNumber: idNumber });
+    let user = await User.findOne({ _id: { $ne: userId }, idNumber: idNumber });
     if (user)
       return res.status(403).json('número do identificador já foi registrado para outra conta');
 
-    user = await User.findOne({ phoneNumber: phoneNumber });
+    user = await User.findOne({ _id: { $ne: userId }, phoneNumber: phoneNumber });
     if (user)
       return res.status(403).json('número do telefone já foi registrado para outra conta');
     
